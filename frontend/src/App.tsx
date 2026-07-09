@@ -1,7 +1,7 @@
 import Navbar from "./components/layout/Navbar";
 import Hero from "./components/dashboard/Hero";
 import StatCard from "./components/dashboard/StatCard";
-
+import IncidentList from "./components/dashboard/IncidentList";
 function App() {
   return (
     <div className="min-h-screen bg-neutral-950">
@@ -28,7 +28,7 @@ function App() {
         />
 
       </div>
-
+            <IncidentList />
     </div>
   );
 }
