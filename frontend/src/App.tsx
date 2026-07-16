@@ -1,9 +1,31 @@
+import { useEffect, useState } from "react";
+
 import Navbar from "./components/layout/Navbar";
 import Hero from "./components/dashboard/Hero";
 import StatCard from "./components/dashboard/StatCard";
 import IncidentList from "./components/dashboard/IncidentList";
 import IncidentTimeline from "./components/dashboard/IncidentTimeline";
-function App() {
+
+import { incidents } from "./data/incidents";
+import { generateIncident } from "./data/generateIncident";
+function App() {const [liveIncidents, setLiveIncidents] = useState(incidents);
+
+  useEffect(() => {
+
+  const timer = setInterval(() => {
+
+    const newIncident = generateIncident();
+
+    setLiveIncidents((previous) => [
+      newIncident,
+      ...previous,
+    ]);
+
+  }, 10000);
+
+  return () => clearInterval(timer);
+
+}, []);
   return (
     <div className="min-h-screen bg-neutral-950">
 
@@ -25,11 +47,11 @@ function App() {
 
         <StatCard
           title="AI EVENTS"
-          value="248"
+          value={liveIncidents.length.toString()}
         />
 
       </div>
-            <IncidentList />
+            <IncidentList incidents={liveIncidents} />
             <IncidentTimeline />
     </div>
   );
