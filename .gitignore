@@ -1,21 +1,22 @@
-# Node
-node_modules
+# Node.js
+node_modules/
 
-# Environment
+# Environment variables
 .env
+.env.local
 
-# Logs
-logs
-*.log
+# Build output
+dist/
+build/
 
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 venv/
+.venv/
 
-# Build
-dist/
-build/
+# Logs
+*.log
 
 # VS Code
 .vscode/

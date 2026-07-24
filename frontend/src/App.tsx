@@ -5,7 +5,7 @@ import Hero from "./components/dashboard/Hero";
 import StatCard from "./components/dashboard/StatCard";
 import IncidentList from "./components/dashboard/IncidentList";
 import IncidentTimeline from "./components/dashboard/IncidentTimeline";
-
+import AIAnalysis from "./components/dashboard/AIAnalysis";
 import { incidents } from "./data/incidents";
 import { generateIncident } from "./data/generateIncident";
 function App() {const [liveIncidents, setLiveIncidents] = useState(incidents);
@@ -52,7 +52,9 @@ function App() {const [liveIncidents, setLiveIncidents] = useState(incidents);
 
       </div>
             <IncidentList incidents={liveIncidents} />
-            <IncidentTimeline />
+           <IncidentTimeline />
+
+<AIAnalysis incident={liveIncidents[0]} />
     </div>
   );
 }

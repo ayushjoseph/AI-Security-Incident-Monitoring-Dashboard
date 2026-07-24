@@ -1,7 +1,11 @@
-import { incidents } from "../../data/incidents";
+import { getSeverityStyle } from "../../utils/severity";
+interface IncidentListProps {
+
+    incidents: typeof import("../../data/incidents").incidents;
+}
 
 
-function IncidentList() {
+function IncidentList({ incidents }: IncidentListProps) {
 
 
 return (
@@ -47,11 +51,18 @@ p-5
 
 </h3>
 
-
-<span className="text-red-400">
-
-{incident.severity}
-
+<span
+  className={`
+    px-3
+    py-1
+    rounded-full
+    border
+    text-xs
+    font-bold
+    ${getSeverityStyle(incident.severity)}
+  `}
+>
+  {incident.severity}
 </span>
 
 
