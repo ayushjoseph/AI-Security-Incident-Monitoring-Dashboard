@@ -7,7 +7,7 @@ interface Incident {
 
 export function summarizeIncident(incident: Incident) {
   let analysis = "";
-  let recommendation = "";
+ let recommendations: string[] = [];
   let riskScore = 0;
 
   switch (incident.severity) {
@@ -16,8 +16,13 @@ export function summarizeIncident(incident: Incident) {
         `Critical security incident detected at ${incident.location}. ` +
         `Immediate investigation is required to prevent further risk.`;
 
-      recommendation =
-        "Notify SOC immediately, isolate affected systems, and review CCTV footage.";
+      recommendations = [
+  "Notify SOC immediately",
+  "Review CCTV footage",
+  "Lock nearby access points",
+  "Preserve system logs",
+  "Escalate to Level-2 Analyst",
+];
 
       riskScore = 95;
       break;
@@ -27,8 +32,11 @@ export function summarizeIncident(incident: Incident) {
         `High-risk incident detected at ${incident.location}. ` +
         `Prompt investigation is recommended.`;
 
-      recommendation =
-        "Verify affected devices and notify the security team.";
+      recommendations = [
+  "Verify affected devices",
+  "Notify the security team",
+  "Review event logs",
+];
 
       riskScore = 80;
       break;
@@ -38,8 +46,10 @@ export function summarizeIncident(incident: Incident) {
         `Medium-risk activity detected at ${incident.location}. ` +
         `Monitor the situation for additional suspicious behavior.`;
 
-      recommendation =
-        "Continue monitoring and collect additional evidence.";
+     recommendations = [
+  "Continue monitoring",
+  "Collect additional evidence",
+];
 
       riskScore = 60;
       break;
@@ -48,15 +58,17 @@ export function summarizeIncident(incident: Incident) {
       analysis =
         `Low-risk event detected at ${incident.location}.`;
 
-      recommendation =
-        "Log the event and continue monitoring.";
+     recommendations = [
+  "Log the event",
+  "Continue monitoring",
+];
 
       riskScore = 30;
   }
 
   return {
-    analysis,
-    recommendation,
-    riskScore,
-  };
+  analysis,
+  recommendations,
+  riskScore,
+};
 }

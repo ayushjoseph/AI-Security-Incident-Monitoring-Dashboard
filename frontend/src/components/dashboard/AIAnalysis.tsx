@@ -25,7 +25,21 @@ function AIAnalysis({ incident }: AIAnalysisProps) {
           {result.riskScore}/100
         </h3>
       </div>
+<div className="mb-5">
+  <p className="text-zinc-400 text-sm">Latest Incident</p>
 
+  <h3 className="text-xl font-semibold text-white mt-2">
+    {incident.title}
+  </h3>
+
+  <p className="text-zinc-500 mt-1">
+    {incident.location}
+  </p>
+
+  <span className="inline-block mt-3 rounded-full border border-red-500/40 bg-red-500/10 px-3 py-1 text-xs font-bold text-red-400">
+    {incident.severity}
+  </span>
+</div>
       <div className="mb-5">
         <p className="text-zinc-400 text-sm">Analysis</p>
 
@@ -39,9 +53,17 @@ function AIAnalysis({ incident }: AIAnalysisProps) {
           Recommended Action
         </p>
 
-        <p className="text-white mt-2">
-          {result.recommendation}
-        </p>
+       <ul className="mt-3 space-y-2">
+  {result.recommendations.map((item, index) => (
+    <li
+      key={index}
+      className="text-white flex items-center gap-2"
+    >
+      <span className="text-green-400">✔</span>
+      {item}
+    </li>
+  ))}
+</ul>
       </div>
 
     </div>
