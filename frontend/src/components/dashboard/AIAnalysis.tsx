@@ -11,7 +11,23 @@ interface AIAnalysisProps {
 
 function AIAnalysis({ incident }: AIAnalysisProps) {
   const result = summarizeIncident(incident);
+const severityStyles = {
+  CRITICAL:
+    "border-red-500/40 bg-red-500/10 text-red-400",
 
+  HIGH:
+    "border-orange-500/40 bg-orange-500/10 text-orange-400",
+
+  MEDIUM:
+    "border-yellow-500/40 bg-yellow-500/10 text-yellow-400",
+
+  LOW:
+    "border-green-500/40 bg-green-500/10 text-green-400",
+};
+
+const severityStyle =
+  severityStyles[incident.severity as keyof typeof severityStyles] ||
+  severityStyles.LOW;
   return (
     <div className="mx-20 mt-16 rounded-xl border border-white/10 bg-white/5 p-6">
 
@@ -21,9 +37,13 @@ function AIAnalysis({ incident }: AIAnalysisProps) {
 
       <div className="mb-5">
         <p className="text-zinc-400 text-sm">Risk Score</p>
-        <h3 className="text-4xl font-bold text-red-400">
-          {result.riskScore}/100
-        </h3>
+        <h3
+  className={`text-4xl font-bold ${
+    severityStyle.split(" ").find((style) => style.startsWith("text-"))
+  }`}
+>
+  {result.riskScore}/100
+</h3>
       </div>
 <div className="mb-5">
   <p className="text-zinc-400 text-sm">Latest Incident</p>
@@ -36,9 +56,11 @@ function AIAnalysis({ incident }: AIAnalysisProps) {
     {incident.location}
   </p>
 
-  <span className="inline-block mt-3 rounded-full border border-red-500/40 bg-red-500/10 px-3 py-1 text-xs font-bold text-red-400">
-    {incident.severity}
-  </span>
+  <span
+  className={`inline-block mt-3 rounded-full border px-3 py-1 text-xs font-bold ${severityStyle}`}
+>
+  {incident.severity}
+</span>
 </div>
       <div className="mb-5">
         <p className="text-zinc-400 text-sm">Analysis</p>
