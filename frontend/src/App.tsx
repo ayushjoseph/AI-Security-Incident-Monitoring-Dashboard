@@ -27,13 +27,13 @@ function App() {const [liveIncidents, setLiveIncidents] = useState(incidents);
 
 }, []);
   return (
-    <div className="min-h-screen bg-neutral-950">
+    <div className="min-h-screen bg-neutral-950 pb-16">
 
       <Navbar />
 
       <Hero />
 
-      <div className="grid grid-cols-3 gap-6 px-20 mt-20">
+     <div className="grid grid-cols-1 gap-6 px-6 mt-20 md:grid-cols-3 md:px-20">
 
         <StatCard
           title="CRITICAL INCIDENTS"

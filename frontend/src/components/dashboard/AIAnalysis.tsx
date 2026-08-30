@@ -29,47 +29,49 @@ const severityStyle =
   severityStyles[incident.severity as keyof typeof severityStyles] ||
   severityStyles.LOW;
   return (
-    <div className="mx-20 mt-16 rounded-xl border border-white/10 bg-white/5 p-6">
+<div className="mx-20 mt-16 rounded-xl border border-white/10 bg-white/5 p-6 mb-16">
 
       <h2 className="text-2xl font-bold text-white mb-6">
         🤖 AI Analysis
       </h2>
 
-      <div className="mb-5">
-        <p className="text-zinc-400 text-sm">Risk Score</p>
-        <h3
-  className={`text-4xl font-bold ${
-    severityStyle.split(" ").find((style) => style.startsWith("text-"))
-  }`}
->
-  {result.riskScore}/100
-</h3>
-      </div>
-<div className="mb-5">
-  <p className="text-zinc-400 text-sm">Latest Incident</p>
+<div className="mb-6">
+  <p className="text-zinc-400 text-sm">Risk Score</p>
 
-  <h3 className="text-xl font-semibold text-white mt-2">
-    {incident.title}
-  </h3>
+  <div className="flex items-end gap-3 mt-1">
+    <h3
+      className={`text-4xl font-bold ${
+        severityStyle
+          .split(" ")
+          .find((style) => style.startsWith("text-"))
+      }`}
+    >
+      {result.riskScore}
+    </h3>
 
-  <p className="text-zinc-500 mt-1">
-    {incident.location}
+    <span className="text-zinc-500 mb-1">
+      /100
+    </span>
+  </div>
+
+  <div className="mt-4 h-2 w-full rounded-full bg-white/10 overflow-hidden">
+    <div
+      className={`h-full transition-all duration-700 ${
+        severityStyle
+          .split(" ")
+          .find((style) => style.startsWith("bg-"))
+      }`}
+      style={{ width: `${result.riskScore}%` }}
+    />
+  </div>
+
+  <p className="text-zinc-500 text-xs mt-2">
+    Threat Level:{" "}
+    <span className="text-white font-semibold">
+      {incident.severity}
+    </span>
   </p>
-
-  <span
-  className={`inline-block mt-3 rounded-full border px-3 py-1 text-xs font-bold ${severityStyle}`}
->
-  {incident.severity}
-</span>
 </div>
-      <div className="mb-5">
-        <p className="text-zinc-400 text-sm">Analysis</p>
-
-        <p className="text-white mt-2">
-          {result.analysis}
-        </p>
-      </div>
-
       <div>
         <p className="text-zinc-400 text-sm">
           Recommended Action

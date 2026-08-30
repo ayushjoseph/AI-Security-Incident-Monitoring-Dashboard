@@ -10,7 +10,7 @@ function IncidentList({ incidents }: IncidentListProps) {
 
 return (
 
-<div className="px-20 mt-16">
+<div className="px-6 mt-16 md:px-20">
 
 
 <h2 className="text-white text-2xl font-bold mb-6">
