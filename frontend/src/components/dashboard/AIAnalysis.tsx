@@ -53,7 +53,41 @@ const severityStyle =
       /100
     </span>
   </div>
+<div className="mb-8">
+  <div className="flex items-center justify-between">
+    <p className="text-sm text-zinc-400">
+      AI Confidence
+    </p>
 
+    <p className="font-semibold text-white">
+      {result.confidence}%
+    </p>
+  </div>
+
+  <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white/10">
+    <div
+      className="h-full bg-cyan-400 transition-all duration-700"
+      style={{ width: `${result.confidence}%` }}
+    />
+  </div>
+</div>
+<div className="mb-8">
+  <p className="text-sm text-zinc-400">
+    Why this assessment?
+  </p>
+
+  <ul className="mt-3 space-y-2">
+    {result.reasons.map((reason, index) => (
+      <li
+        key={index}
+        className="flex items-start gap-2 text-white"
+      >
+        <span className="text-cyan-400">•</span>
+        {reason}
+      </li>
+    ))}
+  </ul>
+</div>
   <div className="mt-4 h-2 w-full rounded-full bg-white/10 overflow-hidden">
     <div
       className={`h-full transition-all duration-700 ${

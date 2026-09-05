@@ -9,7 +9,8 @@ export function summarizeIncident(incident: Incident) {
   let analysis = "";
   let recommendations: string[] = [];
   let riskScore = 0;
-
+let confidence = 0;
+let reasons: string[] = [];
   // -----------------------------------
   // 1. Risk score + analysis by severity
   // -----------------------------------
@@ -58,8 +59,33 @@ export function summarizeIncident(incident: Incident) {
         `Security event detected at ${incident.location}.`;
 
       break;
+      
   }
+switch (incident.severity) {
+  case "CRITICAL":
+    confidence = 95;
+    reasons.push("Incident marked as critical severity");
+    break;
 
+  case "HIGH":
+    confidence = 85;
+    reasons.push("Incident marked as high severity");
+    break;
+
+  case "MEDIUM":
+    confidence = 70;
+    reasons.push("Incident marked as medium severity");
+    break;
+
+  case "LOW":
+    confidence = 55;
+    reasons.push("Incident marked as low severity");
+    break;
+
+  default:
+    confidence = 50;
+    reasons.push("Severity classification is uncertain");
+}
   // -----------------------------------
   // 2. Recommendations by incident type
   // -----------------------------------
@@ -126,14 +152,43 @@ export function summarizeIncident(incident: Incident) {
       ];
       break;
   }
+switch (incident.title) {
+  case "Unauthorized Access":
+    reasons.push("Unauthorized access event detected");
+    break;
 
+  case "Camera Offline":
+    reasons.push("Security camera connectivity issue detected");
+    break;
+
+  case "Motion Detected":
+    reasons.push("Unexpected movement event detected");
+    break;
+
+  case "Multiple Failed Logins":
+    reasons.push("Repeated authentication failures detected");
+    break;
+
+  case "Suspicious Login":
+    reasons.push("Suspicious authentication activity detected");
+    break;
+
+  case "Unknown Device Connected":
+    reasons.push("Unrecognized device connection detected");
+    break;
+
+  default:
+    reasons.push("Incident type requires further investigation");
+}
   // -----------------------------------
   // 3. Return complete AI result
   // -----------------------------------
 
-  return {
-    analysis,
-    recommendations,
-    riskScore,
-  };
+ return {
+  analysis,
+  recommendations,
+  riskScore,
+  confidence,
+  reasons,
+};
 }
