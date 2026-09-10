@@ -8,6 +8,8 @@ import IncidentTimeline from "./components/dashboard/IncidentTimeline";
 import AIAnalysis from "./components/dashboard/AIAnalysis";
 import { incidents } from "./data/incidents";
 import { generateIncident } from "./data/generateIncident";
+import IncidentReport from "./components/dashboard/IncidentReport";
+
 function App() {const [liveIncidents, setLiveIncidents] = useState(incidents);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ function App() {const [liveIncidents, setLiveIncidents] = useState(incidents);
 
 }, []);
   return (
-    <div className="min-h-screen bg-neutral-950 pb-16">
+  <div className="min-h-screen bg-neutral-950">
 
       <Navbar />
 
@@ -55,6 +57,7 @@ function App() {const [liveIncidents, setLiveIncidents] = useState(incidents);
            <IncidentTimeline />
 
 <AIAnalysis incident={liveIncidents[0]} />
+<IncidentReport incident={liveIncidents[0]} />
     </div>
   );
 }
