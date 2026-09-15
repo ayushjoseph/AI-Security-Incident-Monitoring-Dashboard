@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { summarizeIncident } from "../../ai/summarizeIncident";
 import { generateReport } from "../../ai/generateReport";
 
@@ -15,29 +16,95 @@ interface IncidentReportProps {
 
 function IncidentReport({ incident }: IncidentReportProps) {
   const aiResult = summarizeIncident(incident);
-
+  const [copied, setCopied] = useState(false);
   const report = generateReport(incident, aiResult);
+const reportText = `
+SECURITY INCIDENT REPORT
 
+Report ID: ${report.reportId}
+Incident ID: ${report.incidentId}
+
+Incident: ${report.title}
+Location: ${report.location}
+Severity: ${report.severity}
+Status: ${report.status}
+Time: ${report.time}
+
+Risk Score: ${report.riskScore}/100
+AI Confidence: ${report.confidence}%
+
+AI Analysis:
+${report.analysis}
+
+Assessment Reasons:
+${report.reasons.map((reason) => `- ${reason}`).join("\n")}
+
+Recommended Actions:
+${report.recommendations.map((item) => `- ${item}`).join("\n")}
+`;
+const handleCopy = async () => {
+  await navigator.clipboard.writeText(reportText);
+
+  setCopied(true);
+
+  setTimeout(() => {
+    setCopied(false);
+  }, 2000);
+};
+const handleDownload = () => {
+  const blob = new Blob([reportText], {
+    type: "text/plain",
+  });
+
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = `${report.reportId}.txt`;
+
+  link.click();
+
+  URL.revokeObjectURL(url);
+};
   return (
     <section className="mx-20 mt-16 mb-16 rounded-xl border border-white/10 bg-white/5 p-8">
 
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex items-start justify-between">
 
-        <div>
-          <p className="text-xs tracking-widest text-zinc-500">
-            SECURITY REPORT
-          </p>
+  <div>
+    <p className="text-xs tracking-widest text-zinc-500">
+      SECURITY REPORT
+    </p>
 
-          <h2 className="mt-2 text-3xl font-bold text-white">
-            Incident Report
-          </h2>
-        </div>
+    <h2 className="mt-2 text-3xl font-bold text-white">
+      Incident Report
+    </h2>
+  </div>
 
-        <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400">
-          {report.reportId}
-        </span>
+  <div className="flex items-center gap-3">
 
-      </div>
+    <button
+      onClick={handleCopy}
+      className="rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10"
+    >
+      {copied ? "Copied!" : "Copy Report"}
+    </button>
+
+    <button
+      onClick={handleDownload}
+      className="rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10"
+    >
+      Download
+    </button>
+
+    <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400">
+      {report.reportId}
+    </span>
+
+  </div>
+
+</div>
 
       <div className="grid grid-cols-2 gap-6">
 
