@@ -13,3 +13,45 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
 }
+@media print {
+  @page {
+    size: A4;
+    margin: 16mm;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #incident-report,
+  #incident-report * {
+    visibility: visible;
+  }
+
+  #incident-report {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: white !important;
+    color: #111 !important;
+    box-shadow: none !important;
+  }
+
+  #incident-report * {
+    color: #111 !important;
+    border-color: #d1d5db !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

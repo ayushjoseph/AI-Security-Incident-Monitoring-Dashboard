@@ -68,7 +68,10 @@ const handleDownload = () => {
   URL.revokeObjectURL(url);
 };
   return (
-    <section className="mx-20 mt-16 mb-16 rounded-xl border border-white/10 bg-white/5 p-8">
+   <section
+  id="incident-report"
+  className="mx-20 mt-16 mb-16 rounded-xl border border-white/10 bg-white/5 p-8"
+>
 
       <div className="mb-8 flex items-start justify-between">
 
@@ -86,14 +89,19 @@ const handleDownload = () => {
 
     <button
       onClick={handleCopy}
-      className="rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10"
+      className="no-print rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10"
     >
       {copied ? "Copied!" : "Copy Report"}
     </button>
-
+<button
+  onClick={() => window.print()}
+  className="rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10 no-print"
+>
+  Print Report
+</button>
     <button
       onClick={handleDownload}
-      className="rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10"
+      className="no-print rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10"
     >
       Download
     </button>
