@@ -19,30 +19,32 @@ body {
     margin: 16mm;
   }
 
+  html,
   body {
-    background: white !important;
-  }
-
-  body * {
-    visibility: hidden;
-  }
-
-  #incident-report,
-  #incident-report * {
-    visibility: visible;
-  }
-
-  #incident-report {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
     margin: 0 !important;
     padding: 0 !important;
-    border: none !important;
-    border-radius: 0 !important;
+    background: white !important;
+  }
+
+  #root {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide the dashboard */
+  #root > div > * {
+    display: none !important;
+  }
+
+  /* Show only the report */
+  #root > div > #incident-report {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     background: white !important;
     color: #111 !important;
+    border: none !important;
     box-shadow: none !important;
   }
 
