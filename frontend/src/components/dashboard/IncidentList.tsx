@@ -1,16 +1,23 @@
 import { getSeverityStyle } from "../../utils/severity";
 interface IncidentListProps {
-
-    incidents: typeof import("../../data/incidents").incidents;
+  incidents: typeof import("../../data/incidents").incidents;
+  selectedIncident: (typeof import("../../data/incidents").incidents)[number];
+  onSelectIncident: (
+    incident: (typeof import("../../data/incidents").incidents)[number]
+  ) => void;
 }
 
 
-function IncidentList({ incidents }: IncidentListProps) {
+function IncidentList({
+  incidents,
+  selectedIncident,
+  onSelectIncident,
+}: IncidentListProps) {
 
 
 return (
 
-<div className="px-6 mt-16 md:px-20">
+<div className="px-20 mt-16">
 
 
 <h2 className="text-white text-2xl font-bold mb-6">
@@ -27,18 +34,13 @@ Recent Incidents
 
 
 <div
-
-key={incident.id}
-
-className="
-bg-white/5
-border
-border-white/10
-rounded-xl
-p-5
-"
-
-
+  key={incident.id}
+  onClick={() => onSelectIncident(incident)}
+  className={`cursor-pointer transition-all ${
+    selectedIncident.id === incident.id
+      ? "ring-1 ring-cyan-400/50 bg-white/10"
+      : ""
+  }`}
 >
 
 
