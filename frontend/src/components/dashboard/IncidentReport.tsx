@@ -12,13 +12,20 @@ interface IncidentReportProps {
     status: string;
     time: string;
   };
+
+  onStatusChange: (status: string) => void;
 }
 
-function IncidentReport({ incident }: IncidentReportProps) {
+function IncidentReport({
+  incident,
+  onStatusChange,
+}: IncidentReportProps) {
   const aiResult = summarizeIncident(incident);
   const [copied, setCopied] = useState(false);
+
   const report = generateReport(incident, aiResult);
-const reportText = `
+
+  const reportText = `
 SECURITY INCIDENT REPORT
 
 Report ID: ${report.reportId}
@@ -42,77 +49,81 @@ ${report.reasons.map((reason) => `- ${reason}`).join("\n")}
 Recommended Actions:
 ${report.recommendations.map((item) => `- ${item}`).join("\n")}
 `;
-const handleCopy = async () => {
-  await navigator.clipboard.writeText(reportText);
 
-  setCopied(true);
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(reportText);
 
-  setTimeout(() => {
-    setCopied(false);
-  }, 2000);
-};
-const handleDownload = () => {
-  const blob = new Blob([reportText], {
-    type: "text/plain",
-  });
+    setCopied(true);
 
-  const url = URL.createObjectURL(blob);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
 
-  const link = document.createElement("a");
+  const handleDownload = () => {
+    const blob = new Blob([reportText], {
+      type: "text/plain",
+    });
 
-  link.href = url;
-  link.download = `${report.reportId}.txt`;
+    const url = URL.createObjectURL(blob);
 
-  link.click();
+    const link = document.createElement("a");
 
-  URL.revokeObjectURL(url);
-};
+    link.href = url;
+    link.download = `${report.reportId}.txt`;
+
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
+
   return (
-   <section
-  id="incident-report"
-  className="mx-20 mt-16 mb-16 rounded-xl border border-white/10 bg-white/5 p-8"
->
-
+    <section
+      id="incident-report"
+      className="mx-20 mt-16 mb-16 rounded-xl border border-white/10 bg-white/5 p-8"
+    >
       <div className="mb-8 flex items-start justify-between">
 
-  <div>
-    <p className="text-xs tracking-widest text-zinc-500">
-      SECURITY REPORT
-    </p>
+        <div>
+          <p className="text-xs tracking-widest text-zinc-500">
+            SECURITY REPORT
+          </p>
 
-    <h2 className="mt-2 text-3xl font-bold text-white">
-      Incident Report
-    </h2>
-  </div>
+          <h2 className="mt-2 text-3xl font-bold text-white">
+            Incident Report
+          </h2>
+        </div>
 
-  <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3">
 
-    <button
-      onClick={handleCopy}
-      className="no-print rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10"
-    >
-      {copied ? "Copied!" : "Copy Report"}
-    </button>
-<button
-  onClick={() => window.print()}
-  className="rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10 no-print"
->
-  Print Report
-</button>
-    <button
-      onClick={handleDownload}
-      className="no-print rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10"
-    >
-      Download
-    </button>
+          <button
+            onClick={handleCopy}
+            className="no-print rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10"
+          >
+            {copied ? "Copied!" : "Copy Report"}
+          </button>
 
-    <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400">
-      {report.reportId}
-    </span>
+          <button
+            onClick={() => window.print()}
+            className="rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10 no-print"
+          >
+            Print Report
+          </button>
 
-  </div>
+          <button
+            onClick={handleDownload}
+            className="no-print rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10"
+          >
+            Download
+          </button>
 
-</div>
+          <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400">
+            {report.reportId}
+          </span>
+
+        </div>
+
+      </div>
 
       <div className="grid grid-cols-2 gap-6">
 
@@ -139,7 +150,18 @@ const handleDownload = () => {
 
         <div>
           <p className="text-sm text-zinc-500">Status</p>
-          <p className="mt-1 text-white">
+
+          <select
+            value={incident.status}
+            onChange={(event) => onStatusChange(event.target.value)}
+            className="no-print mt-1 rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-white outline-none focus:border-cyan-400/50"
+          >
+            <option value="Open">Open</option>
+            <option value="Investigating">Investigating</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+
+          <p className="status-print mt-1 hidden text-white">
             {report.status}
           </p>
         </div>

@@ -30,6 +30,22 @@ function IncidentList({
     return matchesSearch && matchesSeverity;
   });
 
+  const getStatusStyle = (status: string) => {
+    switch (status) {
+      case "Open":
+        return "border-red-500/30 bg-red-500/10 text-red-400";
+
+      case "Investigating":
+        return "border-yellow-500/30 bg-yellow-500/10 text-yellow-400";
+
+      case "Resolved":
+        return "border-green-500/30 bg-green-500/10 text-green-400";
+
+      default:
+        return "border-zinc-500/30 bg-zinc-500/10 text-zinc-400";
+    }
+  };
+
   return (
     <div className="px-20 mt-16">
 
@@ -40,27 +56,27 @@ function IncidentList({
       {/* Search & Filter */}
       <div className="flex flex-col gap-4 mb-6 md:flex-row">
 
-  <input
-    type="text"
-    placeholder="Search incidents..."
-    value={searchTerm}
-    onChange={(event) => setSearchTerm(event.target.value)}
-    className="flex-1 px-4 py-3 rounded-lg bg-neutral-900 border border-white/10 text-white placeholder-zinc-500 outline-none focus:border-cyan-400/50"
-  />
+        <input
+          type="text"
+          placeholder="Search incidents..."
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          className="flex-1 px-4 py-3 rounded-lg bg-neutral-900 border border-white/10 text-white placeholder-zinc-500 outline-none focus:border-cyan-400/50"
+        />
 
-  <select
-    value={severityFilter}
-    onChange={(event) => setSeverityFilter(event.target.value)}
-    className="px-4 py-3 rounded-lg bg-neutral-900 border border-white/10 text-white outline-none focus:border-cyan-400/50"
-  >
-    <option value="ALL">ALL SEVERITIES</option>
-    <option value="CRITICAL">CRITICAL</option>
-    <option value="HIGH">HIGH</option>
-    <option value="MEDIUM">MEDIUM</option>
-    <option value="LOW">LOW</option>
-  </select>
+        <select
+          value={severityFilter}
+          onChange={(event) => setSeverityFilter(event.target.value)}
+          className="px-4 py-3 rounded-lg bg-neutral-900 border border-white/10 text-white outline-none focus:border-cyan-400/50"
+        >
+          <option value="ALL">ALL SEVERITIES</option>
+          <option value="CRITICAL">CRITICAL</option>
+          <option value="HIGH">HIGH</option>
+          <option value="MEDIUM">MEDIUM</option>
+          <option value="LOW">LOW</option>
+        </select>
 
-</div>
+      </div>
 
       {/* Incident List */}
       <div className="space-y-4">
@@ -103,9 +119,27 @@ function IncidentList({
               {incident.summary}
             </p>
 
-            <p className="text-zinc-500 text-sm mt-3">
-              {incident.location} • {incident.time}
-            </p>
+            <div className="flex items-center gap-3 mt-3">
+
+              <p className="text-zinc-500 text-sm">
+                {incident.location} • {incident.time}
+              </p>
+
+              <span
+                className={`
+                  px-2.5
+                  py-1
+                  rounded-full
+                  border
+                  text-xs
+                  font-semibold
+                  ${getStatusStyle(incident.status)}
+                `}
+              >
+                {incident.status.toUpperCase()}
+              </span>
+
+            </div>
 
           </div>
 

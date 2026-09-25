@@ -16,19 +16,43 @@ function App() {
   const [selectedIncident, setSelectedIncident] = useState(liveIncidents[0]);
 
   useEffect(() => {
-  const timer = setInterval(() => {
-    const newIncident = generateIncident();
+    const timer = setInterval(() => {
+      const newIncident = generateIncident();
 
-    setLiveIncidents((previous) => [
-      newIncident,
-      ...previous,
-    ]);
+      setLiveIncidents((previous) => [
+        newIncident,
+        ...previous,
+      ]);
 
-    setSelectedIncident(newIncident);
-  }, 10000);
+      setSelectedIncident(newIncident);
+    }, 10000);
 
-  return () => clearInterval(timer);
-}, []);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleStatusChange = (newStatus: string) => {
+    setLiveIncidents((previous) => {
+      const updatedIncidents = previous.map((incident) =>
+        incident.id === selectedIncident.id
+          ? {
+              ...incident,
+              status: newStatus,
+            }
+          : incident
+      );
+
+      const updatedSelectedIncident = updatedIncidents.find(
+        (incident) => incident.id === selectedIncident.id
+      );
+
+      if (updatedSelectedIncident) {
+        setSelectedIncident(updatedSelectedIncident);
+      }
+
+      return updatedIncidents;
+    });
+  };
+
   return (
     <div className="min-h-screen bg-neutral-950">
 
@@ -65,7 +89,10 @@ function App() {
 
       <AIAnalysis incident={selectedIncident} />
 
-      <IncidentReport incident={selectedIncident} />
+      <IncidentReport
+        incident={selectedIncident}
+        onStatusChange={handleStatusChange}
+      />
 
     </div>
   );
