@@ -1,14 +1,21 @@
-export const timelineEvents = [
+export interface ActivityEvent {
+  id: string | number;
+  time: string;
+  title: string;
+  type: string;
+  description: string;
+  incidentId?: string;
+}
 
+export const timelineEvents: ActivityEvent[] = [
   {
     id: 1,
     time: "10:42 PM",
     title: "Unauthorized Access Detected",
     type: "ALERT",
     description:
-      "AI vision model detected suspicious activity near server room."
+      "AI vision model detected suspicious activity near server room.",
   },
-
 
   {
     id: 2,
@@ -16,9 +23,8 @@ export const timelineEvents = [
     title: "AI Analysis Completed",
     type: "AI",
     description:
-      "Incident classified as critical based on movement pattern."
+      "Incident classified as critical based on movement pattern.",
   },
-
 
   {
     id: 3,
@@ -26,9 +32,8 @@ export const timelineEvents = [
     title: "Security Team Notified",
     type: "ACTION",
     description:
-      "Escalation workflow triggered automatically."
+      "Escalation workflow triggered automatically.",
   },
-
 
   {
     id: 4,
@@ -36,7 +41,6 @@ export const timelineEvents = [
     title: "Incident Under Investigation",
     type: "STATUS",
     description:
-      "SOC analyst reviewing generated incident report."
-  }
-
+      "SOC analyst reviewing generated incident report.",
+  },
 ];
