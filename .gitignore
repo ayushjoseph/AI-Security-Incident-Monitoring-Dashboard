@@ -23,3 +23,8 @@ venv/
 
 # macOS
 .DS_Store
+
+# Local Windows security event data
+ai-service/data/windows_4625.json
+ai-service/data/windows_4625_normalized.json
+ai-service/data/brute_force_alerts.json
